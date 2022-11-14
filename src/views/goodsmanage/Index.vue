@@ -4,11 +4,10 @@
     <el-row>
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item>
-          <el-input v-model="searchContent" placeholder="请输入通知内容"></el-input>
+          <el-input v-model="searchContent" placeholder="请输入发布人姓名或内容查询"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="fetchData">查询</el-button>
-          <el-button type="success" @click="dialogTableVisible = true">发布通知</el-button>
         </el-form-item>
       </el-form>
     </el-row>
@@ -28,33 +27,49 @@
         width="50"
         v-if="false">
       </el-table-column>
-
       <el-table-column
-        prop="content"
-        label="通知内容"
-        width="400"
+        prop="userInfo.username"
+        label="发布人"
+        width="100"
       >
       </el-table-column>
       <el-table-column
-        prop="type"
-        label="通知类型"
-        width="100"
-      >
+        prop="name"
+        label="标题"
+        width="200">
+      </el-table-column>
+      <el-table-column
+        prop="content"
+        label="内容"
+        width="350">
+      </el-table-column>
+      <el-table-column
+        prop="images"
+        label="图片"
+        width="200">
         <template slot-scope="scope">
-          {{scope.row.type == 'GOODS' ? '商品页' : '动态页'}}
+          <el-image
+            style="width: 100px; height: 100px"
+            :src="scope.row.images | images"
+            :fit="'fill'"
+            :preview-src-list="scope.row.images | images"></el-image>
+<!--          {{ scope.row.images | images }}-->
         </template>
       </el-table-column>
       <el-table-column
         prop="createTime"
-        label="通知发布时间"
+        label="创建时间"
         width="200">
       </el-table-column>
       <el-table-column
         label="操作"
-        width="300"
+        width="200"
         fixed="right">
         <template slot-scope="scope">
-          <el-button type="danger" @click="deleteNotice(scope.row.id)">删除通知</el-button>
+<!--          <el-button type="primary" @click="getTeacher(scope.row.id)" v-loading.fullscreen.lock="fullscreenLoading">-->
+<!--            查看-->
+<!--          </el-button>-->
+          <el-button type="danger" @click="deleteGoods(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -64,68 +79,51 @@
       <el-pagination
         background
         layout="prev, next"
-        :total="1000"
+        :total="total"
         :current-page="currentPage"
         @current-change="fetchData"
         @next-click="currentPage++"
         @prev-click="currentPage--">
       </el-pagination>
     </div>
-
-
-    <el-dialog title="发布通知" :visible.sync="dialogTableVisible" width="30%">
-      <el-form>
-<!--        <el-form-item label="标题" label-width="120px">-->
-<!--          <el-input class="add-user-input" v-model="addNoticeParam.title" autocomplete="off" size="small"></el-input>-->
-<!--        </el-form-item>-->
-        <el-form-item label="通知类型" label-width="120px">
-          <el-select v-model="addNoticeParam.type" placeholder="请选择通知类型">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="通知详情" label-width="120px">
-          <el-input type="textarea" v-model="addNoticeParam.content" rows="3"></el-input>
-
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelDialog()">取 消</el-button>
-        <el-button type="primary" @click="addNotice" :loading="confirmLoading">确 定</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import {addNotice, findNotice} from "@/api/notice";
+import {getUrl} from "@/api/image";
+import {addTeacher, deleteGoods, getAll, getTeacherById} from "@/api/teacher";
 
 export default {
   name: "Index",
   data() {
     return {
-      options:[{
-        value:"GOODS",
-        label:"商品页"
-      },{
-        value:"DYNAMIC",
-        label:"动态页"
-      }],
+      total:0,
       tableData: [],
       searchContent: '',
       loading: false,
       dialogTableVisible: false,
-      addNoticeParam: {
-        content: '',
-        type:''
+      addTeacherParam: {
+        id: null,
+        name: '',
+        sex: 1,
+        age: null,
+        hasCard: 1,
+        imgUrl: '',
+        comment: '',
       },
+      fileList: [],
+      imageUrl: '',
       currentPage: 1,
       fullscreenLoading: false,
-      confirmLoading: false,
+      confirmLoading: false
+    }
+  },
+  filters: {
+    filterSex(value) {
+      return value === 1 ? '男' : '女'
+    },
+    filterCard(value) {
+      return value === 1 ? '有资格' : '无资格'
     }
   },
   created() {
@@ -139,40 +137,34 @@ export default {
         current: this.currentPage,
         size: 10
       }
-      findNotice(data).then(res => {
+      getAll(data).then(res => {
           this.tableData = res.records
-          this.total = res.total
+        this.total = res.total
       })
       this.loading = false
     },
 
     cancelDialog() {
-    },
-    addNotice() {
-      this.confirmLoading = true
-      addNotice(this.addNoticeParam).then(res => {
-        if (res) {
-          this.$message({
-            message: '通知发布成功',
-            type: 'success'
-          })
-          this.fetchData()
-        }
-      })
-      this.confirmLoading = false
+      this.addTeacherParam.id = null
       this.dialogTableVisible = false
+      this.addTeacherParam.name = ''
+      this.addTeacherParam.age = null
+      this.addTeacherParam.comment = ''
+      this.addTeacherParam.imgUrl = ''
+      this.addTeacherParam.hasCard = null
+      this.imageUrl = null
     },
-    deleteNotice(id) {
-      deleteNotice(id).then(res => {
+    deleteGoods(id) {
+      deleteGoods(id).then(res => {
         if (res) {
           this.$message({
             message: '删除成功',
             type: 'success'
           })
-          this.fetchData()
         }
+        this.fetchData()
       })
-    },
+    }
   }
 }
 </script>

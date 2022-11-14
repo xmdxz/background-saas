@@ -2,10 +2,10 @@ import request from "@/utils/request";
 
 export function getAll(param) {
   return request({
-    url: '/gmy/vipUser/findVipUser',
+    url: '/dynamic/page',
     method: 'get',
     params: {
-      nameOrMobile: param.nameOrMobile,
+      keywords: param.keywords,
       current: param.current,
       size: param.size
     }
@@ -30,9 +30,9 @@ export function getVipUserById(id) {
   })
 }
 
-export function deleteStudentById(id) {
+export function deleteDynamic(id) {
   return request({
-    url: '/gmy/vipUser/delete',
+    url: '/dynamic/delete',
     method: 'get',
     params: {
       id: id

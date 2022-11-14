@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">欢迎来到健身房管理系统</div>
+    <div class="dashboard-text">欢迎来到数码二手交易后台管理系统</div>
   </div>
 </template>
 

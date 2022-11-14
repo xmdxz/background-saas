@@ -37,15 +37,15 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    proxy: {
-      '/gmy': {
-        target: 'http://localhost:8082',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/gmy': ''
-        }
-      }
-    }
+    // proxy: {
+    //   '/': {
+    //     target: 'http://localhost:10086',
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       '^/': ''
+    //     }
+    //   }
+    // }
     // before: require('./mock/mock-server.js')
   },
   configureWebpack: {

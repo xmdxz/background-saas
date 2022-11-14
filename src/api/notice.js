@@ -2,10 +2,10 @@ import request from "@/utils/request";
 
 export function findNotice(data) {
   return request({
-    url: '/gmy/notice/findAllNotice',
+    url: '/notice/page',
     method: 'get',
     params: {
-      title: data.title,
+      keywords: data.keywords,
       current: data.current,
       size: data.size
     }
@@ -14,7 +14,7 @@ export function findNotice(data) {
 
 export function addNotice(data) {
   return request({
-    url: '/gmy/notice/addNotice',
+    url: '/notice/add',
     method: 'post',
     data
   })
@@ -22,7 +22,7 @@ export function addNotice(data) {
 
 export function deleteNotice(id) {
   return request({
-    url: '/gmy/notice/delete',
+    url: '/notice/delete',
     method: 'get',
     params: {
       id: id

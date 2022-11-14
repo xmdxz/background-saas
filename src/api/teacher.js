@@ -2,12 +2,10 @@ import request from "@/utils/request";
 
 export function getAll(param) {
   return request({
-    url: '/gmy/teacher/findTeacherUser',
+    url: '/goods/page',
     method: 'get',
     params: {
-      teacherName: param.teacherName,
-      current: param.current,
-      size: param.size
+      ...param
     }
   })
 }
@@ -30,9 +28,9 @@ export function getTeacherById(id) {
   })
 }
 
-export function deleteTeacherById(id) {
+export function deleteGoods(id) {
   return request({
-    url: '/gmy/teacher/delete',
+    url: '/goods/delete',
     method: 'get',
     params: {
       id: id

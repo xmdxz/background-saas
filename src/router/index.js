@@ -78,44 +78,39 @@ export const constantRoutes = [
   },
 
   {
-    path: '/teacherManage',
+    path: '/goodsManage',
     component: Layout,
     children: [
       {
         path: 'index',
         name: 'Teacher',
-        component: () => import('@/views/teachermanage/Index'),
-        meta: {title: '教练管理', icon: 'form'}
+        component: () => import('@/views/goodsmanage/Index'),
+        meta: {title: '商品管理', icon: 'form'}
       }
     ]
   },
 
   {
-    path: '/vipUserManage',
+    path: '/dynamicManage',
     component: Layout,
     children: [
       {
         path: 'index',
         name: 'VipUser',
-        component: () => import('@/views/studentmanage/Index'),
-        meta: {title: '学员管理', icon: 'form'}
+        component: () => import('@/views/dynamicmanage/Index'),
+        meta: {title: '动态管理', icon: 'form'}
       }
     ]
   },
   {
-    path: '/courseManage',
+    path: '/imageManage',
     component: Layout,
     children: [
       {
         path: 'index',
         name: 'Course',
-        component: () => import('@/views/coursemanage/Index'),
-        meta: {title: '课程管理', icon: 'form'}
-      }, {
-        path: 'detail',
-        name: 'CourseDetail',
-        component: () => import('@/views/coursemanage/Detail'),
-        hidden: true
+        component: () => import('@/views/indeximage/Index'),
+        meta: {title: '首页轮播图管理', icon: 'form'}
       }
     ]
   },

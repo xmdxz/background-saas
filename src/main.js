@@ -28,6 +28,16 @@ if (process.env.NODE_ENV === 'production') {
   mockXHR()
 }
 
+Vue.filter('images', function (value) {
+  if (!value) return ''
+  if (Array.isArray(value)){
+    return "http://localhost:10086/" + value[0]
+  }else{
+    value = value.toString()
+    return "http://localhost:10086/" + value
+  }
+})
+
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明

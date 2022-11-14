@@ -28,15 +28,20 @@
         v-if="false">
       </el-table-column>
       <el-table-column
-        prop="name"
-        label="名字"
+        prop="username"
+        label="姓名"
         width="200"
       >
       </el-table-column>
       <el-table-column
-        prop="username"
+        prop="phone"
         label="账号"
         width="200">
+      </el-table-column>
+      <el-table-column
+        prop="password"
+        label="密码"
+        width="300">
       </el-table-column>
       <el-table-column
         prop="createTime"
@@ -48,7 +53,7 @@
         width="300"
         fixed="right">
         <template slot-scope="scope">
-          <el-button type="primary" @click="resetPassword(scope.row.id)">重置密码</el-button>
+<!--          <el-button type="primary" @click="resetPassword(scope.row.id)">重置密码</el-button>-->
           <el-button type="danger" @click="deleteUser(scope.row.id)">删除用户</el-button>
         </template>
       </el-table-column>
@@ -58,7 +63,7 @@
       <el-pagination
         background
         layout="prev, next"
-        :total="1000"
+        :total="total"
         :current-page="currentPage"
         @current-change="fetchData"
         @next-click="currentPage++"
@@ -67,13 +72,16 @@
     </div>
 
 
-    <el-dialog title="添加超级管理员" :visible.sync="dialogTableVisible" width="30%">
+    <el-dialog title="添加用户" :visible.sync="dialogTableVisible" width="30%">
       <el-form>
-        <el-form-item label="超管姓名" label-width="80px">
-          <el-input class="add-user-input" v-model="addName" autocomplete="off" size="small"></el-input>
+        <el-form-item label="用户昵称" label-width="80px">
+          <el-input class="add-user-input" v-model="addUsername" autocomplete="off" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="超管账号" label-width="80px">
-          <el-input class="add-user-input" v-model="addUserName" auto-complete="off" size="small"></el-input>
+        <el-form-item label="用户手机号" label-width="80px">
+          <el-input class="add-user-input" v-model="addPhone" auto-complete="off" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="用户密码" label-width="80px">
+          <el-input class="add-user-input" v-model="addUserPassword" auto-complete="off" size="small"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -86,7 +94,7 @@
 
 <script>
 
-import {addUser, deleteUser, getAllSuperUser} from "@/api/user";
+import {addUser, deleteUser, getPageUser} from "@/api/user";
 
 export default {
   name: 'Index',
@@ -94,11 +102,13 @@ export default {
     return {
       tableData: [],
       currentPage: 1,
+      total:0,
       searchContent: "",
       loading: false,
       dialogTableVisible: false,
-      addName: '',
-      addUserName: '',
+      addUsername: '',
+      addPhone: '',
+      addUserPassword:"",
       confirmLoading: false
     }
   },
@@ -110,11 +120,12 @@ export default {
       this.loading = true
       const data = {
         current: this.currentPage,
-        size: 10,
-        name: this.searchContent
+        size: 5,
+        keywords: this.searchContent
       }
-      getAllSuperUser(data).then(res => {
-        this.tableData = res.data
+      getPageUser(data).then(res => {
+        this.tableData = res.records
+        this.total = res.total
         if (this.tableData.length === 0) {
           this.$message({
             message: '当前没有数据了哦',
@@ -126,57 +137,37 @@ export default {
     },
     deleteUser(id) {
       deleteUser(id).then(res => {
-        if (res.code === 200) {
           this.$message({
             message: '删除成功',
             type: 'success'
           })
-        } else {
-          this.$message({
-            message: res.message,
-            type: 'error'
-          })
-        }
       })
+      this.fetchData()
     },
     addUser() {
       this.confirmLoading = true
       const data = {
-        name: this.addName,
-        username: this.addUserName
+        username: this.addUsername,
+        phone: this.addPhone,
+        password:this.addUserPassword
       }
       addUser(data).then(res => {
-        if (res.code === 200) {
           this.$message({
             message: '添加成功',
             type: 'success'
           })
-        } else {
-          this.$message({
-            message: res.message,
-            type: 'warning'
-          })
-        }
+          this.fetchData()
       })
       this.confirmLoading = false
       this.dialogTableVisible = false;
-      this.addUserName = ''
-      this.addName = ''
-    },
-    resetPassword(id) {
-      resetPassword(id).then(res => {
-        if (res.code === 200) {
-          this.$message({
-            message: '重置密码成功',
-            type: 'success'
-          })
-        }
-      })
+      this.addPhone = ''
+      this.addUsername = ''
+      this.addUserPassword = ''
     },
     cancelDialog() {
       this.dialogTableVisible = false;
-      this.addUserName = '';
-      this.addName = '';
+      this.addPhone = '';
+      this.addUsername = '';
     },
     activeAddDialog() {
       this.dialogTableVisible = true;
