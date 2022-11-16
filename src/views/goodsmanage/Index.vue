@@ -90,8 +90,7 @@
 </template>
 
 <script>
-import {getUrl} from "@/api/image";
-import {addTeacher, deleteGoods, getAll, getTeacherById} from "@/api/teacher";
+import { deleteGoods, getAll} from "@/api/goods";
 
 export default {
   name: "Index",

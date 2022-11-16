@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import {deleteDynamic, getAll, getVipUserById, updateStudentById} from "@/api/student";
+import {deleteDynamic, getAll, getVipUserById, updateStudentById} from "@/api/dynamic";
 
 export default {
   name: "Index",

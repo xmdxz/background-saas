@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import {addNotice, findNotice} from "@/api/notice";
+import {addNotice, findNotice,deleteNotice} from "@/api/notice";
 
 export default {
   name: "Index",

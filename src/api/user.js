@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import da from "element-ui/src/locale/lang/da";
 
 export function login(data) {
   return request({
@@ -14,13 +13,6 @@ export function getInfo(token) {
     url: '/vue-admin-template/user/info',
     method: 'get',
     params: {token}
-  })
-}
-
-export function logout() {
-  return request({
-    url: '/vue-admin-template/user/logout',
-    method: 'post'
   })
 }
 
@@ -42,13 +34,6 @@ export function deleteUser(id) {
   })
 }
 
-export function resetPassword(id) {
-  return request({
-    url: '/gmy/user/resetPassword',
-    method: 'get',
-    params: {id}
-  })
-}
 
 export function addUser(data) {
   return request({

@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '健身房管理系统',
+  title: '数码二手交易后台管理系统',
 
   /**
    * @type {boolean} true | false

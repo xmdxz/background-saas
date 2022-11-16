@@ -37,10 +37,9 @@ const actions = {
     const {username, password} = userInfo
     return new Promise((resolve, reject) => {
       login({username: username.trim(), password: password}).then(response => {
-        const {data} = response
-        commit('SET_USERID', '12332r7829384792832we399sdf1sad')
-        setToken('12332r7829384792832we399sdf1sad')
-        resolve(data)
+        commit('SET_USERID', response)
+        setToken(response)
+        resolve(response)
       }).catch(error => {
         reject(error)
       })

@@ -30,12 +30,3 @@ export function deleteNotice(id) {
   })
 }
 
-export function getCourse(id) {
-  return request({
-    url: '/gmy/course/getCourseById',
-    method: 'get',
-    params: {
-      id: id
-    }
-  })
-}

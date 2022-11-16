@@ -83,7 +83,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'index',
-        name: 'Teacher',
+        name: 'goods',
         component: () => import('@/views/goodsmanage/Index'),
         meta: {title: '商品管理', icon: 'form'}
       }
@@ -96,7 +96,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'index',
-        name: 'VipUser',
+        name: 'dynamic',
         component: () => import('@/views/dynamicmanage/Index'),
         meta: {title: '动态管理', icon: 'form'}
       }
@@ -108,7 +108,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'index',
-        name: 'Course',
+        name: 'image',
         component: () => import('@/views/indeximage/Index'),
         meta: {title: '首页轮播图管理', icon: 'form'}
       }

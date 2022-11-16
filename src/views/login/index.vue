@@ -113,6 +113,7 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then((data) => {
+            console.log(data)
             if (data) {
               console.log(data)
               this.loading = false
