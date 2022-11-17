@@ -1,3 +1,5 @@
+
+//该文件中大多配置为固定模板配置，自定义配置看下面
 import Vue from 'vue'
 
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
@@ -27,7 +29,7 @@ if (process.env.NODE_ENV === 'production') {
   const { mockXHR } = require('../mock')
   mockXHR()
 }
-
+// 全局配置一个过滤器，也就是一个方法，该方法的逻辑是将图片的路径与项目路径拼接，这样才能完整显示图片
 Vue.filter('images', function (value) {
   if (!value) return ''
   if (Array.isArray(value)){

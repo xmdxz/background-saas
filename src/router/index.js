@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 /* Layout */
 import Layout from '@/layout'
-
+//将vue-router注册进vue全局中,可在任意位置调用this.$Router....
 Vue.use(Router)
 
 /**
@@ -29,9 +29,12 @@ Vue.use(Router)
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+//路由主体配置，也是配置中唯一需要动的地方，一个对象数组固定写法
 export const constantRoutes = [
   {
+    //匹配后缀为login的url路径
     path: '/login',
+    //表明这个路径转到views目录下的login/index.vue页面
     component: () => import('@/views/login/index'),
     hidden: true
   },
@@ -44,8 +47,9 @@ export const constantRoutes = [
 
   {
     path: '/',
-    component: Layout,
+    component: Layout,//表明该页面使用这个组件,也就是左侧的tabbar栏
     redirect: '/dashboard',
+    //children的意思是layout的app-main需要显示的页面
     children: [{
       path: 'dashboard',
       name: 'Dashboard',

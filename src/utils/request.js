@@ -1,15 +1,17 @@
 import axios from 'axios'
+//使用element-ui的Message用于弹窗显示消息
 import {Message, MessageBox} from 'element-ui'
 import store from '@/store'
 
-// create an axios instance
+// 创建一个axios实例
 const service = axios.create({
-  baseURL: "http://localhost:10086/", // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
+  //简单来说  就是后端路径
+  baseURL: "http://localhost:10086/",
+  //请求超时时间，超过5秒就代表请求失败
   timeout: 5000 // request timeout
 })
 
-// request interceptor
+// 请求拦截,本项目中不写任何逻辑
 service.interceptors.request.use(
   config => {
     // do something before request is sent
@@ -29,7 +31,7 @@ service.interceptors.request.use(
   }
 )
 
-// response interceptor
+// 响应拦截
 service.interceptors.response.use(
   /**
    * If you want to get http information such as headers or status
@@ -43,7 +45,7 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    // if the custom code is not 20000, it is judged as an error.
+    // 如果后端返回的code不等与20000，证明请求不合法或者后端处理发生了异常，我们进行信息统一弹窗显示
     if (res.code !== 20000) {
       Message({
         message: res.message || 'Error',
@@ -66,10 +68,12 @@ service.interceptors.response.use(
       // }
       return Promise.reject(new Error(res.message || 'Error'))
     } else {
+      //证明请求成功，返回数据
       return res.data
     }
   },
   error => {
+    //显示请求失败的消息，一般为网络异常
     console.log('err' + error) // for debug
     Message({
       message: error.message,
