@@ -65,7 +65,7 @@ export const constantRoutes = [
       path: 'index',
       name: 'Notice',
       component: () => import('@/views/notice/Index'),
-      meta: {title: '通知管理', icon: 'dashboard'}
+      meta: {title: '用户反馈', icon: 'dashboard'}
     }]
   },
   {

@@ -6,7 +6,7 @@ import store from '@/store'
 // 创建一个axios实例
 const service = axios.create({
   //简单来说  就是后端路径
-  baseURL: "http://localhost:10086/",
+  baseURL: "http://localhost:10086/back",
   //请求超时时间，超过5秒就代表请求失败
   timeout: 5000 // request timeout
 })

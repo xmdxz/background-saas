@@ -1,17 +1,7 @@
 <template>
   <div class="app-container">
 
-    <el-row>
-      <el-form :inline="true" class="demo-form-inline">
-        <el-form-item>
-          <el-input v-model="searchContent" placeholder="请输入通知内容"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="fetchData">查询</el-button>
-          <el-button type="success" @click="dialogTableVisible = true">发布通知</el-button>
-        </el-form-item>
-      </el-form>
-    </el-row>
+
     <el-table
       v-loading="loading"
       :data="tableData"
@@ -31,31 +21,26 @@
 
       <el-table-column
         prop="content"
-        label="通知内容"
+        label="反馈内容"
         width="400"
       >
       </el-table-column>
       <el-table-column
-        prop="type"
-        label="通知类型"
+        prop="username"
+        label="反馈人"
         width="100"
       >
-        <template slot-scope="scope">
-          {{scope.row.type == 'GOODS' ? '商品页' : '动态页'}}
-        </template>
+      </el-table-column>
+      <el-table-column
+        prop="phone"
+        label="反馈人手机号"
+        width="200"
+      >
       </el-table-column>
       <el-table-column
         prop="createTime"
-        label="通知发布时间"
+        label="反馈时间"
         width="200">
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        width="300"
-        fixed="right">
-        <template slot-scope="scope">
-          <el-button type="danger" @click="deleteNotice(scope.row.id)">删除通知</el-button>
-        </template>
       </el-table-column>
     </el-table>
 

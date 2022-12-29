@@ -2,10 +2,9 @@ import request from "@/utils/request";
 
 export function findNotice(data) {
   return request({
-    url: '/notice/page',
+    url: '/feedback/page',
     method: 'get',
     params: {
-      keywords: data.keywords,
       current: data.current,
       size: data.size
     }
