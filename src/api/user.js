@@ -70,3 +70,29 @@ export function deleteIndex(data) {
     }
   })
 }
+
+export function deleteCoupon(data){
+  return request({
+    url:'/coupon/delete',
+    method:'get',
+    params:{
+      id:data
+    }
+  })
+}
+
+export function addCoupon(data){
+  return request({
+    url:'/coupon/add',
+    method:'post',
+    data
+  })
+}
+
+export function pageCoupon(data){
+  return request({
+    url:'/coupon/page',
+    method:'post',
+    data
+  })
+}

@@ -80,7 +80,18 @@ export const constantRoutes = [
       }
     ]
   },
-
+  {
+    path: '/couponManage',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'coupon',
+        component: () => import('@/views/couponmanage/index.vue'),
+        meta: {title: '优惠券管理', icon: 'table'}
+      }
+    ]
+  },
   {
     path: '/showManage',
     component: Layout,
