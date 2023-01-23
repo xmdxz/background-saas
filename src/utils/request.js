@@ -1,12 +1,12 @@
 import axios from 'axios'
 //使用element-ui的Message用于弹窗显示消息
-import {Message, MessageBox} from 'element-ui'
+import {Message} from 'element-ui'
 import store from '@/store'
 
 // 创建一个axios实例
 const service = axios.create({
   //简单来说  就是后端路径
-  baseURL: "http://localhost:10086/back",
+  baseURL: "http://localhost:10086",
   //请求超时时间，超过5秒就代表请求失败
   timeout: 5000 // request timeout
 })

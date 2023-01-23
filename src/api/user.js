@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/login',
+    url: '/back/login',
     method: 'post',
     data
   })
@@ -18,7 +18,7 @@ export function getInfo(token) {
 
 export function getPageUser(data) {
   return request({
-    url: '/user/page',
+    url: '/back/user/page',
     method: 'get',
     params: {
       ...data
@@ -28,7 +28,7 @@ export function getPageUser(data) {
 
 export function deleteUser(id) {
   return request({
-    url: '/user/deleteUser',
+    url: '/back/user/deleteUser',
     method: 'get',
     params: {id}
   })
@@ -37,7 +37,7 @@ export function deleteUser(id) {
 
 export function addUser(data) {
   return request({
-    url: '/user/add',
+    url: '/back/user/add',
     method: 'post',
     data
   })
@@ -46,14 +46,14 @@ export function addUser(data) {
 
 export function listImage(data) {
   return request({
-    url: '/index/images',
+    url: '/back/index/images',
     method: 'get'
   })
 }
 
 export function addImage(data) {
   return request({
-    url: '/index/add',
+    url: '/back/index/add',
     method: 'get',
     params: {
       image: data
@@ -63,7 +63,7 @@ export function addImage(data) {
 
 export function deleteIndex(data) {
   return request({
-    url: '/index/delete',
+    url: '/back/index/delete',
     method: 'get',
     params: {
       id: data

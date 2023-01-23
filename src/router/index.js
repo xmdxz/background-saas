@@ -82,14 +82,19 @@ export const constantRoutes = [
   },
 
   {
-    path: '/goodsManage',
+    path: '/showManage',
     component: Layout,
     children: [
       {
         path: 'index',
-        name: 'goods',
-        component: () => import('@/views/goodsmanage/Index'),
-        meta: {title: '商品管理', icon: 'form'}
+        name: 'show',
+        component: () => import('@/views/showmanage/Index'),
+        meta: {title: '演出管理', icon: 'form'}
+      }, {
+        path: 'addShow',
+        name: 'addShow',
+        component: () => import('@/views/showmanage/AddShow.vue'),
+        hidden: true
       }
     ]
   },
