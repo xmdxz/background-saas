@@ -2,7 +2,7 @@ import request from "@/utils/request";
 
 export function findNotice(data) {
   return request({
-    url: '/feedback/page',
+    url: '/back/feedback/page',
     method: 'get',
     params: {
       current: data.current,
