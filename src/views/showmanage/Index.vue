@@ -4,30 +4,37 @@
     <el-row>
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item label="名称">
-          <el-input v-model="searchContent" placeholder="请输入演出名称"></el-input>
+          <el-input v-model="searchContent" placeholder="请输入演出名称" size="small"></el-input>
         </el-form-item>
         <el-form-item label="演出者">
-          <el-input v-model="searchAuthor" placeholder="请输入演出者"></el-input>
+          <el-input v-model="searchAuthor" placeholder="请输入演出者" size="small"></el-input>
         </el-form-item>
         <el-form-item label="演出类型">
-          <el-select v-model="showTypeSelected" placeholder="请选择演出类型" clearable>
+          <el-select v-model="showTypeSelected" size="small" placeholder="请选择演出类型" clearable>
             <el-option value="YCH" label="演唱会"></el-option>
             <el-option value="HJ" label="话剧"></el-option>
             <el-option value="TKX" label="脱口秀"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="演出城市">
+          <el-select v-model="searchCity" size="small" placeholder="请选择演出城市">
+            <el-option v-for="item in cityList" :key="item.id" :value="item.cityCode"
+                       :label="item.cityName"></el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item>
-          <el-button type="primary" @click="fetchData">查询</el-button>
+          <el-button type="primary" @click="fetchData" size="small">筛选演出</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="toAddShow">添加演出</el-button>
+          <el-button type="success" @click="toAddShow" size="small">添加演出</el-button>
         </el-form-item>
       </el-form>
     </el-row>
     <el-table
-      v-loading="loading"
       :data="tableData"
       border
+      v-loading="loading"
       style="width: 100%">
       <el-table-column
         type="index"
@@ -47,7 +54,7 @@
         width="100"
       >
         <template slot-scope="scope">
-          <el-image :src="scope.row.imgUrl"></el-image>
+          <el-image :src="scope.row.imgUrl | images"></el-image>
         </template>
       </el-table-column>
       <el-table-column
@@ -83,10 +90,10 @@
         width="300"
         fixed="right">
         <template slot-scope="scope">
-          <el-button type="primary" @click="" v-loading.fullscreen.lock="fullscreenLoading">
-            查看
+          <el-button type="primary" @click="toEditShow(scope.row.id)">
+            编辑
           </el-button>
-          <el-button type="danger" @click="">删除</el-button>
+          <el-button type="danger" @click="deleteShow(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -109,7 +116,9 @@
 </template>
 
 <script>
-import {getShowList} from "@/api/show";
+import {deleteShow, getShowList} from "@/api/show";
+import {getCityList} from "@/api/city";
+import {load} from "runjs/lib/script";
 
 export default {
   name: "Index",
@@ -118,6 +127,7 @@ export default {
       tableData: [],
       searchContent: '',
       searchAuthor: '',
+      searchCity: '',
       loading: false,
       fileList: [],
       imageUrl: '',
@@ -125,14 +135,21 @@ export default {
       fullscreenLoading: false,
       confirmLoading: false,
       teacherUserList: [],
-      showTypeSelected: ''
+      showTypeSelected: '',
+      cityList: []
     }
   },
-  filters: {},
   created() {
     this.fetchData()
+    this.getCity()
   },
   methods: {
+    load,
+    getCity() {
+      getCityList().then(res => {
+        this.cityList = res
+      })
+    },
     fetchData() {
       this.loading = true
       const data = {
@@ -140,15 +157,28 @@ export default {
         type: this.showTypeSelected,
         author: this.searchAuthor,
         current: this.currentPage,
+        city: this.searchCity,
         size: 10
       }
       getShowList(data).then(res => {
         this.tableData = res.records
+        this.loading = false
       })
-      this.loading = false
     },
     toAddShow() {
       this.$router.push("addShow")
+    },
+    toEditShow(id) {
+      this.$router.push({
+        name: "addShow", params: {
+          id: id
+        }
+      })
+    },
+    deleteShow(id) {
+      deleteShow(id).then(res => {
+        this.$message.success('删除成功')
+      })
     }
   }
 }

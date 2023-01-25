@@ -13,3 +13,31 @@ export function getShowList(data) {
     }
   })
 }
+
+export function addShow(data) {
+  return request({
+    url: '/show/addShow',
+    method: 'post',
+    data
+  })
+}
+
+export function getShowById(id) {
+  return request({
+    url: '/show/getShowDetail',
+    method: 'get',
+    params: {
+      id: id
+    }
+  })
+}
+
+export function deleteShow(id) {
+  return request({
+    url: '/show/deleteShow',
+    method: 'get',
+    params: {
+      id: id
+    }
+  })
+}

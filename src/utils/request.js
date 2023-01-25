@@ -8,7 +8,7 @@ const service = axios.create({
   //简单来说  就是后端路径
   baseURL: "http://localhost:10086",
   //请求超时时间，超过5秒就代表请求失败
-  timeout: 5000 // request timeout
+  timeout: 10000 // request timeout
 })
 
 // 请求拦截,本项目中不写任何逻辑

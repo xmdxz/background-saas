@@ -109,16 +109,15 @@ export const constantRoutes = [
       }
     ]
   },
-
   {
-    path: '/dynamicManage',
+    path: '/city',
     component: Layout,
     children: [
       {
         path: 'index',
-        name: 'dynamic',
-        component: () => import('@/views/dynamicmanage/Index'),
-        meta: {title: '动态管理', icon: 'form'}
+        name: 'cityList',
+        component: () => import('@/views/city/Index.vue'),
+        meta: {title: '城市管理', icon: 'form'}
       }
     ]
   },
